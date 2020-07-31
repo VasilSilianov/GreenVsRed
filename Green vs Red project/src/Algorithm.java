@@ -176,10 +176,7 @@ public class Algorithm {
     }
 
     public static int whichCase(int[][] arr, int x1, int y1) {
-
-
         // first  chek position
-
         int sum = 0;
         if (x1 == 0 && y1 == 0) {
         //    System.out.println("where are we 2");
