@@ -1,165 +1,90 @@
-import org.w3c.dom.ls.LSOutput;
-
-import java.util.Scanner;
-
+/**
+ *
+ * This class represents the algorithm of the program
+ */
 public class Algorithm {
 
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-
-        String[] arrDimensions = input.nextLine().split(", ");
-
-        int y = Integer.parseInt(arrDimensions[1]);
-        int x = Integer.parseInt(arrDimensions[0]);
-
-        int[][] arr = new int[y][x];
-        for (int i = 0; i < y; i++) {
-            String strArr[] = input.nextLine().split("");
-
-            for (int j = 0; j < strArr.length; j++) {
-                arr[i][j] = Integer.parseInt(strArr[j]);
-            }
-        }
-
-        String[] instructions = input.nextLine().split(", ");
-        int x1 = Integer.parseInt(instructions[0]);
-        int y1 = Integer.parseInt(instructions[1]);
-        int N = Integer.parseInt(instructions[2]);
-
+    /**
+     * @param arr two demensional array that represents the grid
+     * @param y1 the row of the searched element
+     * @param x1 the column of the searched element
+     * @param N number of generations
+     * @return the number of time that the searched cell was green
+     * This method calculate the next generation of the grid from
+     * the current generation of the grid by applying method:
+     * rule1and2 and rule3and4
+     */
+    public int greenVsRedAlgorithm(int[][] arr, int y1, int x1, int N) {
         int counter = 0;
         if (arr[y1][x1] == 1) {
             counter++;
         }
-        for (int i = 0; i < N; i++) {
-            //System.out.println("here + 0");
-            int[][] nextGenArr= copyArr(arr);
-            nextGenArr = rule1and2(arr,nextGenArr);
-            arr = rule3and4(arr,nextGenArr);
-            System.out.println("next generation"+ (i+1));
-            printArr(arr);
-            System.out.println();
 
+        for (int i = 0; i < N; i++) {
+            int[][] nextGenArr = copyArr(arr);
+            rule1and2(arr, nextGenArr);
+            arr = rule3and4(arr, nextGenArr);
             if (arr[y1][x1] == 1) {
                 counter++;
             }
         }
-
-        System.out.println(counter);
-
-        //  System.out.println(N + "tova e N");
-        // first  chek position
-
-/*
-        if (x1 == 0 && y1 == 0) {
-            //todo something1
-            System.out.println(" x1 == 0 && y1 == 0 ");
-        } else if (x1 == x - 1 && y1 == y - 1) {
-            // todo something2
-            System.out.println(" x1 == x - 1 && y1 == y - 1 ");
-        } else if (x1 == 0 && y1 == y - 1) {
-            // todo something3
-            System.out.println(" x1 == 0 && y1 == y - 1 ");
-
-        } else if (x1 == x - 1 && y1 == 0) {
-            // todo something4
-            System.out.println(" x1 == x - 1 && y1 == 0 ");
-
-        } else if (x1 == 0) {
-            // todo something5
-            System.out.println(" x1 ==0 ");
-
-        } else if (x1 == x - 1) {
-            // todo something6
-            System.out.println(" x1 == x-1 ");
-
-        } else if (y1 == 0) {
-
-            int counter = 0;
-            //  System.out.println("initialValue: " + initialValue);
-            for (int i = 0; i < N; i++) {
-
-                if (arr[y1][x1] == 0) {
-                    int sum = 0;
-                    sum += arr[y1][x1];
-                    sum += arr[y1][x1 - 1];
-                    sum += arr[y1][x1 + 1];
-                    sum += arr[y1 + 1][x1 - 1];
-                    sum += arr[y1 + 1][x1];
-                    sum += arr[y1 + 1][x1 + 1];
-                    if (sum == 3 || sum == 6) {
-                        arr[y1][x1] = 1;
-
-                        //   System.out.println("here 1");
-                        //counter++;
-                    }
-                } else {
-                    counter++;
-                    int sum = 0;
-                    sum += arr[y1][x1];
-                    sum += arr[y1][x1 - 1];
-                    sum += arr[y1][x1 + 1];
-                    sum += arr[y1 + 1][x1 - 1];
-                    sum += arr[y1 + 1][x1];
-                    sum += arr[y1 + 1][x1 + 1];
-                    if (!(sum == 2 || sum == 3 || sum == 6)) {
-
-                        arr[y1][x1] = 0;
-
-                        //  System.out.println("here 2");
-                    }
-
-                }
-
-            }
-
-            System.out.println("counter: " + counter);
-
-        } else if (y1 == y - 1) {
-            // todo something8
-            System.out.println(" y1 == y-1 ");
-
-        } else {
-            System.out.println("here");
-            int counter = 0;
-            //  System.out.println("initialValue: " + initialValue);
-            if (arr[y1][x1] == 1) {
-                counter++;
-            }
-            for (int i = 0; i < N; i++) {
-                //System.out.println("here + 0");
-                rule1and2(arr);
-                rule3and4(arr);
-
-                if (arr[y1][x1] == 1) {
-                    counter++;
-                }
-            }
-
-            System.out.println("counter: " + counter);
-
-        }*/
-
+        return counter;
     }
 
-
-    public static int[][] rule1and2(int[][] arr,int[][] nextGen) {
+    /**
+     *
+     * @param arr grid for cloning
+     * @return deep clone
+     * Creates new array with same values ... //TODO
+     */
+    private int[][] copyArr(int[][] arr) {
+        int[][] copiedArr = new int[arr.length][arr[0].length];
         for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr[i].length; j++) {
+            for (int j = 0; j < arr[0].length; j++) {
+                copiedArr[i][j] = arr[i][j];
+            }
+        }
+        return copiedArr;
+    }
+
+    /**
+     *
+     * @param currentGen current generation grid
+     * @param nextGen next generation grid
+     * @return the next generation array.
+     * Takes the current generation array
+     * and applies and the next generation array
+     * rules :
+     * One Each red cell that is surrounded by exactly 3 or exactly 6 green cells will also become green in the next generation
+     * Two A red cell will stay red in  the next generation if it has either 0,1,2,4,5,7 or 8 green neighbours.
+     *
+     */
+    private void rule1and2(int[][] currentGen, int[][] nextGen) {
+        for (int i = 0; i < currentGen.length; i++) {
+            for (int j = 0; j < currentGen[i].length; j++) {
                 //int sum = 0;
-                if (arr[i][j] == 0) {
-                    int sum = whichCase(arr, j, i);
+                if (currentGen[i][j] == 0) {
+                    int sum = whichCase(currentGen, j, i);
                     if (sum == 3 || sum == 6) {
                         nextGen[i][j] = 1;
                     }
-
                 }
-
             }
         }
-        return nextGen;
     }
 
-    public static int[][] rule3and4(int[][] currentGen, int[][] nextGen) {
+    /**
+     *
+     * @param currentGen current generation grid
+     * @param nextGen next generation grid
+     * @return the next generation array.
+     * Takes the current generation array
+     * and applies and the next generation array
+     * rules:
+     * Tree Each green cell surrounded by 0,1,4,5,7 or 8 green neighbours will become red in the next generation
+     * Four A green cell will stay green in the next generation if it has either 2,3 or 6 green neighbours.
+     */
+    private int[][] rule3and4(int[][] currentGen, int[][] nextGen) {
         for (int i = 0; i < currentGen.length; i++) {
             for (int j = 0; j < currentGen[i].length; j++) {
                 if (currentGen[i][j] == 1) {
@@ -167,66 +92,64 @@ public class Algorithm {
                     if (!(sum == 3 || sum == 6 || sum == 2)) {
                         nextGen[i][j] = 0;
                     }
-
                 }
-
             }
         }
         return nextGen;
     }
 
-    public static int whichCase(int[][] arr, int x1, int y1) {
-        // first  chek position
+    /**
+     *
+     * @param arr the generation we look into
+     * @param x1 is the row of the searched element
+     * @param y1 is the column of the searched element
+     * @return the sum of all cells around the (x1,y1) cell
+     * This method check in which case (edge, side or inside position in the grid)
+     *  and calculates the sum of all the surrounding cells
+      */
+    private int whichCase(int[][] arr, int x1, int y1) {
         int sum = 0;
-        if (x1 == 0 && y1 == 0) {
-        //    System.out.println("where are we 2");
+        if (x1 == 0 && y1 == 0) { //edge case
             sum += arr[y1][x1 + 1];
             sum += arr[y1 + 1][x1];
             sum += arr[y1 + 1][x1 + 1];
-        } else if (x1 == arr[0].length - 1 && y1 == arr.length - 1) {
-         //   System.out.println("where are we 3");
+        } else if (x1 == arr[0].length - 1 && y1 == arr.length - 1) { //edge case
             sum += arr[y1 - 1][x1 - 1];
             sum += arr[y1 - 1][x1];
             sum += arr[y1][x1 - 1];
-        } else if (x1 == 0 && y1 == arr.length - 1) {
-         //   System.out.println("where are we 4");
+        } else if (x1 == 0 && y1 == arr.length - 1) { //edge case
             sum += arr[y1][x1 + 1];
             sum += arr[y1 - 1][x1];
             sum += arr[y1 - 1][x1 + 1];
-        } else if (x1 == arr[0].length - 1 && y1 == 0) {//tuk li mi e greshkata
-        //    System.out.println("where are we 5");
+        } else if (x1 == arr[0].length - 1 && y1 == 0) {//edge case
             sum += arr[y1][x1 - 1];
             sum += arr[y1 + 1][x1 - 1];
             sum += arr[y1 + 1][x1];
-        } else if (x1 == 0) {
-       //     System.out.println("where are we 6");
+        } else if (x1 == 0) { //side case
             sum += arr[y1 + 1][x1];
             sum += arr[y1 + 1][x1 + 1];
             sum += arr[y1][x1 + 1];
             sum += arr[y1 - 1][x1];
             sum += arr[y1 - 1][x1 + 1];
-        } else if (x1 == arr[0].length - 1) {
-       //     System.out.println("where are we 7");
+        } else if (x1 == arr[0].length - 1) { //side case
             sum += arr[y1 + 1][x1];
             sum += arr[y1 + 1][x1 - 1];
             sum += arr[y1][x1 - 1];
             sum += arr[y1 - 1][x1];
             sum += arr[y1 - 1][x1 - 1];
-        } else if (y1 == 0) {
-         //   System.out.println("where are we 8");
+        } else if (y1 == 0) { //side case
             sum += arr[y1][x1 - 1];
             sum += arr[y1][x1 + 1];
             sum += arr[y1 + 1][x1 - 1];
             sum += arr[y1 + 1][x1];
             sum += arr[y1 + 1][x1 + 1];
-        } else if (y1 == arr.length - 1) {
-    //        System.out.println("where are we 9");
+        } else if (y1 == arr.length - 1) { //side case
             sum += arr[y1][x1 - 1];
             sum += arr[y1][x1 + 1];
             sum += arr[y1 - 1][x1 - 1];
             sum += arr[y1 - 1][x1];
             sum += arr[y1 - 1][x1 + 1];
-        } else {
+        } else { // inside position case
             sum += arr[y1 - 1][x1 - 1];
             sum += arr[y1 - 1][x1];
             sum += arr[y1 - 1][x1 + 1];
@@ -235,31 +158,7 @@ public class Algorithm {
             sum += arr[y1 + 1][x1 - 1];
             sum += arr[y1 + 1][x1];
             sum += arr[y1 + 1][x1 + 1];
-      //      System.out.println("where are we 1");
         }
-
         return sum;
-    }
-
-
-    public static void printArr(int[][] arr) {
-
-        for (int i = 0; i <arr.length; i++) {
-            for (int j = 0; j <arr[i].length ; j++) {
-                System.out.print(arr[i][j]);
-            }
-            System.out.println();
-        }
-
-    }
-
-    public static int[][] copyArr( int[][] arr){
-        int[][] copiedArr= new int [arr.length][arr[0].length];
-        for (int i = 0; i <arr.length ; i++) {
-            for (int j = 0; j <arr[0].length ; j++) {
-                copiedArr[i][j] = arr[i][j];
-            }
-        }
-        return copiedArr;
     }
 }
