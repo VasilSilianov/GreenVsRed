@@ -37,7 +37,7 @@ public class Input {
      * where y is the number of  rows
      * and x is the number of elements on each row.
      */
-    public void initializeArrDimensions(Scanner input){
+    private void initializeArrDimensions(Scanner input){
         String[] arrDimensions = input.nextLine().split(", ");
         setX(Integer.parseInt(arrDimensions[0]));
         setY(Integer.parseInt(arrDimensions[1]));
@@ -51,7 +51,7 @@ public class Input {
      *  Grid(arr).
      */
 
-    public void initializeTheGrid(Scanner input){
+    private void initializeTheGrid(Scanner input){
         for (int i = 0; i < getY(); i++) {
             String[] strArr = input.nextLine().split("");
             for (int j = 0; j < strArr.length; j++) {
@@ -68,7 +68,7 @@ public class Input {
      * x1 is the specific position in the row of the element,
      * And N is the number of  generations.
      */
-    public  void initializeCoordinatesAndGenerations(Scanner input){
+    private  void initializeCoordinatesAndGenerations(Scanner input){
         String[] instructions = input.nextLine().split(", ");
         setX1(Integer.parseInt(instructions[0]));
         setY1(Integer.parseInt(instructions[1]));
