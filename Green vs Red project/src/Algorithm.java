@@ -51,7 +51,6 @@ public class Algorithm {
      *
      * @param currentGen current generation grid
      * @param nextGen next generation grid
-     * @return the next generation array.
      * Takes the current generation array
      * and applies and the next generation array
      * rules :
